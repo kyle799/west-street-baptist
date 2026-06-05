@@ -1,0 +1,25 @@
+# Reference-only sibling project (not part of this app)
+online-sermon/
+
+# Bible source XML (cloned at deploy time)
+bibles/
+
+# Secrets & local state
+.env
+*.env
+!.env.example
+db.sqlite3
+*.sqlite3
+staticfiles/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

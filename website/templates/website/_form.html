@@ -1,0 +1,41 @@
+{# Reusable submission form. Expects: form, source_path. #}
+<form method="post" novalidate>
+  {% csrf_token %}
+  <input type="hidden" name="source_path" value="{{ source_path }}">
+
+  {% if form.non_field_errors %}
+    <div class="flash flash-error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  {# honeypot — keep out of the tab order and off-screen #}
+  <div class="hp-field" aria-hidden="true">
+    <label for="{{ form.company.id_for_label }}">Company</label>
+    {{ form.company }}
+  </div>
+
+  <div class="field">
+    <label for="{{ form.name.id_for_label }}">Name</label>
+    {{ form.name }}
+    {% if form.name.errors %}<ul class="errors">{% for e in form.name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="{{ form.email.id_for_label }}">Email</label>
+    {{ form.email }}
+    {% if form.email.errors %}<ul class="errors">{% for e in form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="{{ form.phone.id_for_label }}">Phone</label>
+    {{ form.phone }}
+    {% if form.phone.errors %}<ul class="errors">{% for e in form.phone.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="{{ form.message.id_for_label }}">{{ message_label }} <span class="req">*</span></label>
+    {{ form.message }}
+    {% if form.message.errors %}<ul class="errors">{% for e in form.message.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary">{{ submit_label }}</button>
+</form>

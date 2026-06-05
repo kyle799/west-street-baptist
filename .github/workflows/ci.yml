@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: weststreet_test
+          POSTGRES_USER: weststreet
+          POSTGRES_PASSWORD: testpassword
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U weststreet"
+          --health-interval 5s --health-timeout 5s --health-retries 5
+    env:
+      SECRET_KEY: ci-test-secret
+      DEBUG: "false"
+      ALLOWED_HOSTS: "*"
+      DATABASE_URL: postgres://weststreet:testpassword@localhost:5432/weststreet_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Django system check
+        run: python manage.py check
+      - name: Migrations are up to date
+        run: python manage.py makemigrations --check --dry-run
+      - name: Run tests
+        run: python manage.py test -v2
+
+  build-images:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build web image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: false
+          tags: web:ci-${{ github.event.number }}
+      - name: Build bible image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./bible_flask_api
+          push: false
+          tags: bible:ci-${{ github.event.number }}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}About — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">About Us</p>
+    <h1>Who we are</h1>
+    <p class="verse">{{ site_tagline }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container prose">
+    <h2>Our church</h2>
+    <p>
+      {{ site_name }} is a Baptist congregation in {{ site_city }}. We exist to
+      glorify God, to make disciples of Jesus Christ, and to serve our community
+      with the love of the gospel.
+    </p>
+
+    <h2>What we believe</h2>
+    <p>
+      We hold to the historic Christian faith and to Baptist convictions: the
+      authority and sufficiency of Scripture, salvation by grace through faith in
+      Jesus Christ alone, believer's baptism, and the priesthood of all believers.
+    </p>
+    <p>
+      Our preaching is expository — we teach through books of the Bible verse by
+      verse so that the whole counsel of God shapes our church.
+    </p>
+
+    <h2>Come visit</h2>
+    <p>
+      The best way to get to know us is to join us on a Sunday. See our
+      <a href="{% url 'visit' %}">service times and location</a>, or
+      <a href="{% url 'contact' %}">reach out</a> with any questions.
+    </p>
+  </div>
+</section>
+{% endblock %}

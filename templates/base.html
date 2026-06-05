@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ site_name }} — {{ site_tagline }}. {{ site_city }}.{% endblock %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'website/img/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'website/css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/site.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{% url 'home' %}" aria-label="{{ site_name }} home">
+        <img src="{% static 'website/img/logo-lockup.svg' %}" alt="{{ site_name }}" class="brand-logo">
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+        <ul id="nav-menu" class="nav-menu">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'visit' %}">Visit</a></li>
+          <li><a href="/bible">Bible</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a class="nav-cta" href="{% url 'prayer' %}">Prayer Request</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="{% static 'website/img/logo-lockup-reverse.svg' %}" alt="{{ site_name }}" class="footer-logo">
+        <p class="footer-verse">{{ site_tagline }}</p>
+      </div>
+      <div>
+        <h3>Service Times</h3>
+        <ul class="footer-times">
+          {% for label, time in service_times %}
+            <li><span>{{ label }}</span><strong>{{ time }}</strong></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3>Visit Us</h3>
+        <p>
+          <a href="{{ maps_link_url }}" target="_blank" rel="noopener">
+            {{ site_street }}<br>{{ site_city_state_zip }}
+          </a>
+        </p>
+        <p><a href="{% url 'contact' %}">Contact</a> · <a href="{% url 'prayer' %}">Prayer Request</a></p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; {% now "Y" %} {{ site_name }}. {{ site_city }}.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal mobile nav toggle — no framework needed.
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      var menu = document.getElementById('nav-menu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', function () {
+        var open = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
+  </script>
+</body>
+</html>

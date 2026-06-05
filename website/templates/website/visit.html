@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Visit — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">Plan Your Visit</p>
+    <h1>We'd love to see you</h1>
+    <p class="lead">Here's everything you need to join us this week.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container cols">
+    <div class="prose">
+      <h2>What to expect</h2>
+      <p>
+        Come as you are. You'll find a warm welcome, congregational singing, and
+        clear, Bible-centered preaching. Services last about an hour.
+      </p>
+      <p>
+        Have a question before you come? <a href="{% url 'contact' %}">Send us a
+        message</a> and we'll be glad to help.
+      </p>
+
+      <h2>Where to find us</h2>
+      <p>
+        {{ site_name }}<br>
+        {{ site_street }}<br>
+        {{ site_city_state_zip }}
+      </p>
+      <p><a class="btn btn-ghost" href="{{ maps_link_url }}" target="_blank" rel="noopener">Get Directions</a></p>
+    </div>
+    <aside class="times-card">
+      <h3>Service Times</h3>
+      <ul class="times-list">
+        {% for label, time in service_times %}
+          <li><span>{{ label }}</span><strong>{{ time }}</strong></li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">Find Us</p>
+    <h2>Map</h2>
+    <div class="map-embed">
+      <iframe
+        src="{{ maps_embed_url }}"
+        title="Map to {{ site_name }}"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+.git
+.gitignore
+online-sermon
+bible_flask_api
+bibles
+*.md
+west-street-baptist-brand-sheet.html
+.env
+.env.*
+db.sqlite3
+*.sqlite3
+staticfiles
+**/__pycache__
+*.pyc
+.github

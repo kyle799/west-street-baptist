@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">{{ site_city }}</p>
+    <h1>{{ site_name }}</h1>
+    <p class="lead">A church family gathering to worship Christ and to grow in the Word of God together.</p>
+    <p class="verse">{{ site_tagline }}</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="{% url 'visit' %}">Plan Your Visit</a>
+      <a class="btn btn-ghost" href="/bible">Read the Bible</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container cols">
+    <div class="prose">
+      <p class="eyebrow">Welcome</p>
+      <h2>Come and worship with us</h2>
+      <p>
+        Whether you're visiting Pueblo, new to the area, or simply looking for a
+        church home, you are welcome here. We are a Bible-believing Baptist church
+        committed to teaching God's Word faithfully — verse by verse — and to
+        caring for one another as a family.
+      </p>
+      <p>
+        Join us on Sunday, reach out with a question, or send us a prayer request.
+        We would love to meet you.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="{% url 'contact' %}">Get in Touch</a>
+        <a class="btn btn-ghost" href="{% url 'prayer' %}">Request Prayer</a>
+      </div>
+    </div>
+    <aside class="times-card">
+      <h3>Service Times</h3>
+      <ul class="times-list">
+        {% for label, time in service_times %}
+          <li><span>{{ label }}</span><strong>{{ time }}</strong></li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">How to connect</p>
+    <h2>Next steps</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Plan a Visit</h3>
+        <p>Service times, what to expect, and where to find us in Pueblo.</p>
+        <p><a href="{% url 'visit' %}">Plan your visit →</a></p>
+      </div>
+      <div class="card">
+        <h3>Read the Bible</h3>
+        <p>Open our online Bible reader and study the Word in several translations.</p>
+        <p><a href="/bible">Open the reader →</a></p>
+      </div>
+      <div class="card">
+        <h3>Prayer Request</h3>
+        <p>Share what's on your heart. Our team will pray with and for you.</p>
+        <p><a href="{% url 'prayer' %}">Request prayer →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

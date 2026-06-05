@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Prayer Request — {{ site_name }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">Share What Is On Your Heart</p>
+    <h1>Prayer request</h1>
+    <p class="lead">What would you like us to pray for? Our team will pray with and for you.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container form-wrap">
+    {% if sent %}
+      <div class="form-success">
+        <div class="check">&checkmark;</div>
+        <h2>Received</h2>
+        <p>Thank you for sharing. Our team will be praying.</p>
+        <p style="margin-top:18px"><a class="btn btn-ghost" href="{% url 'home' %}">Back to home</a></p>
+      </div>
+    {% else %}
+      <p class="form-intro">Your request is kept private and read by our prayer team. Name and contact details are optional.</p>
+      {% include "website/_form.html" with message_label="Prayer request" submit_label="Submit Request" %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

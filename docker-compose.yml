@@ -1,0 +1,84 @@
+# Local development stack.
+#   docker compose up -d postgres web bible
+#   docker compose run --rm importer --bibles-dir /bibles --only eng-web,eng-kjv,eng-asv
+name: weststreet-dev
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: weststreet
+      POSTGRES_USER: weststreet
+      POSTGRES_PASSWORD: devpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U weststreet"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    entrypoint: []
+    environment:
+      DEBUG: "true"
+      SECRET_KEY: dev-insecure-change-me
+      DATABASE_URL: postgres://weststreet:devpassword@postgres:5432/weststreet
+      ALLOWED_HOSTS: "*"
+      CSRF_TRUSTED_ORIGINS: http://localhost:8000,http://127.0.0.1:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  bible:
+    build:
+      context: ./bible_flask_api
+    environment:
+      DATABASE_PATH: /data/bible.db
+    volumes:
+      - bible_data:/data
+    restart: unless-stopped
+
+  # One-off import job. Requires the open-bibles source checked out at ./bibles:
+  #   git clone https://github.com/seven1m/open-bibles bibles
+  importer:
+    build:
+      context: ./bible_flask_api
+    entrypoint: ["python3", "import_all.py"]
+    command: ["--bibles-dir", "/bibles"]
+    environment:
+      DATABASE_PATH: /data/bible.db
+    volumes:
+      - bible_data:/data
+      - ./bibles:/bibles:ro
+    profiles:
+      - import
+
+  # Optional: exercise the full nginx routing locally (bible + web behind one proxy).
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d.dev:/etc/nginx/conf.d:ro
+    depends_on:
+      - web
+      - bible
+    profiles:
+      - proxy
+
+volumes:
+  pgdata:
+  bible_data:
