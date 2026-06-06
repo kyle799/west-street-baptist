@@ -52,7 +52,7 @@ jobs:
       - name: Deploy (blue/green swap)
         env:
           IMAGE_TAG: ${{ github.sha }}
-          DEPLOY_ROOT: /home/kyle/west-street-baptist
+          DEPLOY_ROOT: /home/kyle/west-street-baptist/west-street-baptist
         run: |
           cd "$DEPLOY_ROOT"
           git pull --ff-only
