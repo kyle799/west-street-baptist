@@ -57,6 +57,11 @@ jobs:
           cd "$DEPLOY_ROOT"
           git pull --ff-only
           sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${IMAGE_TAG}/" .env
+          # Postgres must be up and healthy BEFORE the swap: deploy-swap starts
+          # the web color with --no-deps and its entrypoint runs `migrate`
+          # immediately, so the DB host must already resolve and accept
+          # connections. (--wait blocks until postgres's healthcheck passes.)
+          docker compose -f docker-compose.prod.yml up -d --no-deps --wait postgres bible
           ./scripts/deploy-swap.sh
-          docker compose -f docker-compose.prod.yml up -d --no-deps postgres bible nginx
+          docker compose -f docker-compose.prod.yml up -d --no-deps nginx
           docker image prune -f
