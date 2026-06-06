@@ -28,6 +28,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev-insecure-change-me")
 DEBUG = env_bool("DEBUG", False)
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1,web,web-blue,web-green")
+# The container healthcheck and deploy swap probe /healthz over loopback inside
+# the container, so these hosts must always be allowed even when ALLOWED_HOSTS is
+# overridden in prod with the public domains only.
+for _internal_host in ("127.0.0.1", "localhost", "web", "web-blue", "web-green"):
+    if _internal_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_internal_host)
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
 
 INSTALLED_APPS = [
