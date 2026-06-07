@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   West Street Baptist Church — site styles
+   West Street Baptist Church - site styles
    Uses brand tokens from tokens.css.
    ------------------------------------------------------------------ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -82,9 +82,7 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 /* ---------- hero ---------- */
 .hero {
   padding: 96px 0 84px;
-  background:
-    radial-gradient(1200px 400px at 70% -10%, rgba(143,180,212,.35), transparent),
-    var(--parchment);
+  background: var(--parchment);
   border-bottom: 1px solid var(--hairline);
 }
 .hero .eyebrow {
@@ -162,7 +160,7 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 .field textarea { min-height: 140px; resize: vertical; }
 .field .help { font-size: 13px; color: var(--slate); margin-top: 6px; }
 .field .errors { color: #7D1C1C; font-size: 14px; margin-top: 6px; list-style: none; }
-/* honeypot — visually hidden, off-screen */
+/* honeypot - visually hidden, off-screen */
 .hp-field { position: absolute; left: -9999px; top: 0; height: 0; overflow: hidden; }
 
 .form-success {

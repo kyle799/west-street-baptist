@@ -7,7 +7,7 @@
     <div class="flash flash-error">{{ form.non_field_errors }}</div>
   {% endif %}
 
-  {# honeypot — keep out of the tab order and off-screen #}
+  {# honeypot - keep out of the tab order and off-screen #}
   <div class="hp-field" aria-hidden="true">
     <label for="{{ form.company.id_for_label }}">Company</label>
     {{ form.company }}

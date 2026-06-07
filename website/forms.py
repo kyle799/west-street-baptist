@@ -13,7 +13,7 @@ class _SubmissionForm(forms.ModelForm):
     field ("company") catches naive bots.
     """
 
-    # Honeypot — real users never see/fill this. Bots that fill every input
+    # Honeypot - real users never see/fill this. Bots that fill every input
     # trip it and the submission is silently rejected.
     company = forms.CharField(required=False, widget=forms.HiddenInput, label="")
 

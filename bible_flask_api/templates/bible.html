@@ -32,10 +32,6 @@ body {
   color: var(--ink);
   font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
   min-height: 100vh;
-  /* subtle parchment noise via layered gradients */
-  background-image:
-    radial-gradient(ellipse 80% 60% at 15% 40%, rgba(210,185,140,.08) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 80% at 85% 70%, rgba(190,165,120,.06) 0%, transparent 70%);
 }
 
 /* ── HEADER ─────────────────────────────────────────────────────── */
@@ -215,7 +211,7 @@ main {
 }
 .loading-bar {
   width: 40px; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: var(--gold);
   margin: 1.25rem auto 0;
   animation: shimmer 1.2s ease-in-out infinite;
 }
@@ -281,10 +277,10 @@ main {
   content: '';
   width: 50px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-lt));
+  background: var(--gold-lt);
 }
 .chapter-ornament::after {
-  background: linear-gradient(90deg, var(--gold-lt), transparent);
+  background: var(--gold-lt);
 }
 .ornament-center {
   color: var(--gold);
@@ -470,8 +466,8 @@ main {
   width: 50px;
   height: 1px;
 }
-.book-index-ornament::before { background: linear-gradient(90deg, transparent, var(--gold-lt)); }
-.book-index-ornament::after  { background: linear-gradient(90deg, var(--gold-lt), transparent); }
+.book-index-ornament::before { background: var(--gold-lt); }
+.book-index-ornament::after  { background: var(--gold-lt); }
 .chapter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
@@ -880,7 +876,7 @@ function renderPassage(data, translation) {
 
   const transLabel = (TRANSLATIONS.find(t => t.identifier === translation) || {}).identifier || translation;
 
-  // Build verse HTML — group by chapter for multi-chapter ranges
+  // Build verse HTML - group by chapter for multi-chapter ranges
   let verseHtml = '';
   let prevChap = null;
   verses.forEach((v, i) => {

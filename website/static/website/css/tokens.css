@@ -1,12 +1,12 @@
 /* ------------------------------------------------------------------
-   West Street Baptist Church — design tokens
+   West Street Baptist Church - design tokens
    Source of truth: west-street-baptist-brand-sheet.html (sections 05, 07).
    When the brand sheet changes, update these tokens to match.
    ------------------------------------------------------------------ */
 @import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
 :root {
-  /* Palette — drawn from the original roadside sign */
+  /* Palette - drawn from the original roadside sign */
   --sunday-blue: #2E5DA6;
   --ink:         #1C2733;
   --parchment:   #F2EEE3;

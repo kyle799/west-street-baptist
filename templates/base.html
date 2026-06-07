@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ site_name }}{% endblock %}</title>
-  <meta name="description" content="{% block description %}{{ site_name }} — {{ site_tagline }}. {{ site_city }}.{% endblock %}">
+  <meta name="description" content="{% block description %}{{ site_name }}: {{ site_tagline }}. {{ site_city }}.{% endblock %}">
   <link rel="icon" type="image/svg+xml" href="{% static 'website/img/favicon.svg' %}">
   <link rel="stylesheet" href="{% static 'website/css/tokens.css' %}">
   <link rel="stylesheet" href="{% static 'website/css/site.css' %}">
@@ -74,7 +74,7 @@
   </footer>
 
   <script>
-    // Minimal mobile nav toggle — no framework needed.
+    // Minimal mobile nav toggle - no framework needed.
     (function () {
       var toggle = document.querySelector('.nav-toggle');
       var menu = document.getElementById('nav-menu');

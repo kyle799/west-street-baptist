@@ -31,10 +31,10 @@ def _notify_church(submission):
     lines = [
         f"New {label.lower()} submission from the website.",
         "",
-        f"Name:    {submission.name or '—'}",
-        f"Email:   {submission.email or '—'}",
-        f"Phone:   {submission.phone or '—'}",
-        f"Page:    {submission.source_path or '—'}",
+        f"Name:    {submission.name or '-'}",
+        f"Email:   {submission.email or '-'}",
+        f"Phone:   {submission.phone or '-'}",
+        f"Page:    {submission.source_path or '-'}",
         "",
         "Message:",
         submission.message,
@@ -82,7 +82,7 @@ def contact(request):
         form_class=ContactForm,
         template="website/contact.html",
         page_title="Contact Us",
-        done_message="Thank you — we received your message and will be in touch.",
+        done_message="Thank you! We received your message and will be in touch.",
     )
 
 
@@ -92,5 +92,5 @@ def prayer(request):
         form_class=PrayerForm,
         template="website/prayer.html",
         page_title="Prayer Request",
-        done_message="Received. Thank you for sharing — our team will be praying.",
+        done_message="Received. Thank you for sharing. Our team will be praying.",
     )
