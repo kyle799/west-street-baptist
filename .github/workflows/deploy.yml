@@ -64,4 +64,10 @@ jobs:
           docker compose -f docker-compose.prod.yml up -d --no-deps --wait postgres bible
           ./scripts/deploy-swap.sh
           docker compose -f docker-compose.prod.yml up -d --no-deps nginx
+          # Safety reload: re-resolve upstream container IPs once everything is
+          # up. nginx caches the web upstream IP at load time, so if a web
+          # container was recreated with a new IP since the swap's own reload,
+          # this prevents a stale-IP 502. Validate config first.
+          docker compose -f docker-compose.prod.yml exec -T nginx nginx -t
+          docker compose -f docker-compose.prod.yml exec -T nginx nginx -s reload
           docker image prune -f
