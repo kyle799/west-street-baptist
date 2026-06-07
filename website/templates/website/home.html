@@ -4,13 +4,31 @@
 {% block content %}
 <section class="hero">
   <div class="container">
-    <p class="eyebrow">{{ site_city }}</p>
-    <h1>{{ site_name }}</h1>
-    <p class="lead">A church family gathering to worship Christ and to grow in the Word of God together.</p>
-    <p class="verse">{{ site_tagline }}</p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="{% url 'visit' %}">Plan Your Visit</a>
-      <a class="btn btn-ghost" href="/bible">Read the Bible</a>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">{{ site_city }}</p>
+        <h1>{{ site_name }}</h1>
+        <p class="lead">A church family gathering to worship Christ and to grow in the Word of God together.</p>
+        <p class="verse">{{ site_tagline }}</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="{% url 'visit' %}">Plan Your Visit</a>
+          <a class="btn btn-ghost" href="/bible">Read the Bible</a>
+        </div>
+      </div>
+
+      <aside class="watch-card">
+        <h2 class="watch-card-title">Watch Our Services</h2>
+        <div class="watch-embed">
+          <iframe src="{{ facebook_embed_url }}"
+                  width="400" height="520" loading="lazy"
+                  style="border:none;overflow:hidden" scrolling="no"
+                  frameborder="0" allowfullscreen="true"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="West Street Baptist Church on Facebook"></iframe>
+        </div>
+        <a class="btn btn-primary watch-card-btn" href="{{ facebook_page_url }}"
+           target="_blank" rel="noopener">Watch on Facebook</a>
+      </aside>
     </div>
   </div>
 </section>

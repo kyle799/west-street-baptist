@@ -96,6 +96,14 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 }
 .hero .cta-row { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
 
+/* ---------- hero watch card ---------- */
+.hero-grid { display: grid; grid-template-columns: 1fr minmax(320px, 400px); gap: 48px; align-items: start; }
+.watch-card { background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
+.watch-card-title { font-size: 19px; margin-bottom: 14px; color: var(--sunday-blue); }
+.watch-embed { border: 1px solid var(--hairline); border-radius: var(--radius); overflow: hidden; background: var(--paper-2); }
+.watch-embed iframe { display: block; width: 100%; max-width: 100%; border: 0; }
+.watch-card-btn { display: block; text-align: center; margin-top: 16px; }
+
 /* ---------- generic section ---------- */
 .section { padding: 72px 0; }
 .section + .section { border-top: 1px solid var(--hairline); }
@@ -190,6 +198,8 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 820px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .watch-card { max-width: 440px; }
   .cols { grid-template-columns: 1fr; gap: 32px; }
   .card-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }

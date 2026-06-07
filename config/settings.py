@@ -164,6 +164,10 @@ SITE_CITY = "Pueblo, Colorado"
 SITE_STREET = "1001 West St"
 SITE_CITY_STATE_ZIP = "Pueblo, CO 81003"
 
+# Social / livestream. Swap this one value (or repoint to YouTube later) to
+# change both the homepage "watch" embed and the fallback button.
+FACEBOOK_PAGE_URL = "https://www.facebook.com/westsbc"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
