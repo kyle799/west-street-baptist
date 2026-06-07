@@ -25,8 +25,9 @@ def site(request):
             "&adapt_container_width=true&hide_cover=false&show_facepile=false"
         ),
         "service_times": [
-            ("Sunday School", "10:00 AM"),
-            ("Sunday Worship", "11:00 AM & 6:00 PM"),
-            ("Wednesday Bible Study & Prayer", "7:00 PM"),
+            ("Sunday School", "9:45 AM"),
+            ("Morning Service", "11:00 AM"),
+            ("Evening Service", "6:00 PM"),
+            ("Wednesday Bible Study", "7:00 PM"),
         ],
     }

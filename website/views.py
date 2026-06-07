@@ -23,6 +23,10 @@ def visit(request):
     return render(request, "website/visit.html")
 
 
+def message(request):
+    return render(request, "website/message.html")
+
+
 def _notify_church(submission):
     """Best-effort email to the church inbox. No-op if unconfigured."""
     if not settings.CHURCH_NOTIFY_EMAIL:
