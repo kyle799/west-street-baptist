@@ -23,3 +23,7 @@ venv/
 .DS_Store
 .idea/
 .vscode/
+
+# Blue/green live upstream — runtime state, rewritten by scripts/deploy-swap.sh.
+# Bootstrapped from active-upstream.conf.example on first deploy.
+nginx/upstream/active-upstream.conf

@@ -6,7 +6,7 @@
 #
 # Assumes .env already has the new IMAGE_TAG (the CI workflow writes it
 # before invoking us). Reads the current color out of
-# nginx/active-upstream.conf, starts the OTHER color with the new image,
+# nginx/upstream/active-upstream.conf, starts the OTHER color with the new image,
 # waits for its container healthcheck to pass, rewrites the upstream file,
 # reloads nginx, then stops the old color.
 #
@@ -18,8 +18,8 @@ REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_ROOT"
 
 COMPOSE=(docker compose -f docker-compose.prod.yml)
-UPSTREAM_FILE="$REPO_ROOT/nginx/active-upstream.conf"
-UPSTREAM_TEMPLATE="$REPO_ROOT/nginx/active-upstream.conf.example"
+UPSTREAM_FILE="$REPO_ROOT/nginx/upstream/active-upstream.conf"
+UPSTREAM_TEMPLATE="$REPO_ROOT/nginx/upstream/active-upstream.conf.example"
 HEALTH_TIMEOUT=120  # seconds (covers migrate + collectstatic on boot)
 
 # Bootstrap the live upstream file on first install.

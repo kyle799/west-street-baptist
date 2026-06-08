@@ -1,8 +1,10 @@
 {% load static %}
-{# Slide-out drawer holding the contact + prayer forms. Triggered by any
-   element with a data-drawer="contact|prayer" attribute. Progressive
-   enhancement: those triggers keep their href to the standalone pages, so
-   the site still works with JavaScript disabled. #}
+{% comment %}
+Slide-out drawer holding the contact + prayer forms. Triggered by any
+element with a data-drawer="contact|prayer" attribute. Progressive
+enhancement: those triggers keep their href to the standalone pages, so
+the site still works with JavaScript disabled.
+{% endcomment %}
 <div class="drawer" id="form-drawer" aria-hidden="true">
   <div class="drawer-overlay" data-drawer-close></div>
   <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-heading" tabindex="-1">

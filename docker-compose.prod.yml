@@ -75,7 +75,11 @@ services:
     volumes:
       - ./nginx/${NGINX_PROFILE:-conf.d.cloudflare}:/etc/nginx/conf.d:ro
       - ./nginx/snippets:/etc/nginx/snippets:ro
-      - ./nginx/active-upstream.conf:/etc/nginx/active-upstream.conf:ro
+      # Mount the *directory*, not the file: deploy-swap.sh rewrites the
+      # upstream with `sed -i`, which swaps the inode. A single-file bind mount
+      # pins the original inode and never sees the change; a directory mount
+      # resolves the filename on each open, so reloads pick up the new color.
+      - ./nginx/upstream:/etc/nginx/upstream:ro
     restart: unless-stopped
     depends_on:
       - bible
