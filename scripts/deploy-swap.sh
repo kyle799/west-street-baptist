@@ -80,12 +80,16 @@ fi
 echo "==> swapping nginx upstream -> web-$NEXT"
 sed -i "s/web-[a-z]\+:8000/web-$NEXT:8000/" "$UPSTREAM_FILE"
 
-if "${COMPOSE[@]}" ps --services --status running 2>/dev/null | grep -qx nginx; then
-  "${COMPOSE[@]}" exec -T nginx nginx -t
-  "${COMPOSE[@]}" exec -T nginx nginx -s reload
-else
-  echo "==> nginx not running yet; workflow will start it"
-fi
+# Bring nginx in line with the committed compose config BEFORE validating.
+# When the nginx mounts or config change (e.g. the upstream moved into its own
+# mounted directory), the running container still has the old mounts while the
+# bind-mounted conf.d already shows the new app.conf — so `nginx -t` inside the
+# old container fails on an include path it can't see yet. `up -d` recreates
+# the container in that case (picking up the new mounts); when nothing changed
+# it's a no-op and we simply graceful-reload to read the new upstream file.
+"${COMPOSE[@]}" up -d --no-deps nginx
+"${COMPOSE[@]}" exec -T nginx nginx -t
+"${COMPOSE[@]}" exec -T nginx nginx -s reload
 
 # Drain briefly, then stop the outgoing color.
 sleep 3
