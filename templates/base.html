@@ -26,8 +26,8 @@
           <li><a href="{% url 'message' %}">Important Message</a></li>
           <li><a href="{% url 'visit' %}">Visit</a></li>
           <li><a href="/bible">Bible</a></li>
-          <li><a href="{% url 'contact' %}">Contact</a></li>
-          <li><a class="nav-cta" href="{% url 'prayer' %}">Prayer Request</a></li>
+          <li><a href="{% url 'contact' %}" data-drawer="contact">Contact</a></li>
+          <li><a class="nav-cta" href="{% url 'prayer' %}" data-drawer="prayer">Prayer Request</a></li>
         </ul>
       </nav>
     </div>
@@ -66,13 +66,15 @@
             {{ site_street }}<br>{{ site_city_state_zip }}
           </a>
         </p>
-        <p><a href="{% url 'contact' %}">Contact</a> · <a href="{% url 'prayer' %}">Prayer Request</a></p>
+        <p><a href="{% url 'contact' %}" data-drawer="contact">Contact</a> · <a href="{% url 'prayer' %}" data-drawer="prayer">Prayer Request</a></p>
       </div>
     </div>
     <div class="container footer-bottom">
       <p>&copy; {% now "Y" %} {{ site_name }}. {{ site_city }}.</p>
     </div>
   </footer>
+
+  {% include "website/_drawer.html" %}
 
   <script>
     // Minimal mobile nav toggle - no framework needed.

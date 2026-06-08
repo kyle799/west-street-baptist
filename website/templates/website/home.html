@@ -49,8 +49,8 @@
         We would love to meet you.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="{% url 'contact' %}">Get in Touch</a>
-        <a class="btn btn-ghost" href="{% url 'prayer' %}">Request Prayer</a>
+        <a class="btn btn-primary" href="{% url 'contact' %}" data-drawer="contact">Get in Touch</a>
+        <a class="btn btn-ghost" href="{% url 'prayer' %}" data-drawer="prayer">Request Prayer</a>
       </div>
     </div>
     <aside class="times-card">
@@ -82,7 +82,7 @@
       <div class="card">
         <h3>Prayer Request</h3>
         <p>Share what's on your heart. Our team will pray with and for you.</p>
-        <p><a href="{% url 'prayer' %}">Request prayer →</a></p>
+        <p><a href="{% url 'prayer' %}" data-drawer="prayer">Request prayer →</a></p>
       </div>
     </div>
   </div>

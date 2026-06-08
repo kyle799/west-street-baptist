@@ -1,0 +1,206 @@
+{% load static %}
+{# Slide-out drawer holding the contact + prayer forms. Triggered by any
+   element with a data-drawer="contact|prayer" attribute. Progressive
+   enhancement: those triggers keep their href to the standalone pages, so
+   the site still works with JavaScript disabled. #}
+<div class="drawer" id="form-drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-drawer-close></div>
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-heading" tabindex="-1">
+    <button type="button" class="drawer-close" data-drawer-close aria-label="Close">&times;</button>
+
+    <div data-drawer-form>
+      <p class="eyebrow" data-drawer-eyebrow></p>
+      <h2 id="drawer-heading" data-drawer-heading></h2>
+      <p class="form-intro" data-drawer-intro></p>
+
+      <form method="post" class="drawer-form" novalidate data-drawer-formel>
+        {% csrf_token %}
+        <input type="hidden" name="source_path" value="{{ request.path }}">
+
+        {# honeypot - kept out of the tab order and off-screen #}
+        <div class="hp-field" aria-hidden="true">
+          <label for="d_company">Company</label>
+          <input type="text" name="company" id="d_company" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="d_name">Name</label>
+          <input type="text" name="name" id="d_name" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="d_email">Email</label>
+          <input type="email" name="email" id="d_email" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="d_phone">Phone</label>
+          <input type="text" name="phone" id="d_phone" autocomplete="tel" inputmode="tel">
+        </div>
+        <div class="field">
+          <label for="d_message"><span data-drawer-msglabel></span> <span class="req">*</span></label>
+          <textarea name="message" id="d_message" rows="6" maxlength="4000" required></textarea>
+          <ul class="errors" data-drawer-msgerr hidden></ul>
+        </div>
+
+        <div class="flash flash-error" data-drawer-error hidden></div>
+
+        <button type="submit" class="btn btn-primary" data-drawer-submit></button>
+      </form>
+    </div>
+
+    <div class="form-success drawer-success" data-drawer-success hidden>
+      <div class="check">&checkmark;</div>
+      <h2 data-drawer-success-title></h2>
+      <p data-drawer-success-text></p>
+      <p style="margin-top:18px">
+        <button type="button" class="btn btn-ghost" data-drawer-close>Close</button>
+      </p>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function () {
+  var drawer = document.getElementById('form-drawer');
+  if (!drawer) return;
+
+  var panel       = drawer.querySelector('.drawer-panel');
+  var formView    = drawer.querySelector('[data-drawer-form]');
+  var formEl      = drawer.querySelector('[data-drawer-formel]');
+  var successView = drawer.querySelector('[data-drawer-success]');
+  var errorBox    = drawer.querySelector('[data-drawer-error]');
+  var msgErr      = drawer.querySelector('[data-drawer-msgerr]');
+  var navMenu     = document.getElementById('nav-menu');
+  var lastFocus   = null;
+
+  var CONFIG = {
+    contact: {
+      eyebrow: 'Get in Touch',
+      heading: 'Contact us',
+      intro: 'Send us a message and someone from the church will get back to you.',
+      msgLabel: 'Message',
+      submit: 'Send Message',
+      action: '{% url "contact" %}',
+      successTitle: 'Thank you',
+      successText: 'We received your message and will be in touch.'
+    },
+    prayer: {
+      eyebrow: 'Share What Is On Your Heart',
+      heading: 'Prayer request',
+      intro: 'Your request is kept private and read by our prayer team. Name and contact details are optional.',
+      msgLabel: 'Prayer request',
+      submit: 'Submit Request',
+      action: '{% url "prayer" %}',
+      successTitle: 'Received',
+      successText: 'Thank you for sharing. Our team will be praying.'
+    }
+  };
+
+  function set(attr, text) {
+    var el = drawer.querySelector('[data-drawer-' + attr + ']');
+    if (el) el.textContent = text;
+  }
+
+  function clearErrors() {
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+    msgErr.hidden = true;
+    msgErr.innerHTML = '';
+  }
+
+  function open(type) {
+    var cfg = CONFIG[type];
+    if (!cfg) return;
+    lastFocus = document.activeElement;
+    if (navMenu) navMenu.classList.remove('open');
+
+    formEl.reset();
+    formEl.action = cfg.action;
+    set('eyebrow', cfg.eyebrow);
+    set('heading', cfg.heading);
+    set('intro', cfg.intro);
+    set('msglabel', cfg.msgLabel);
+    set('submit', cfg.submit);
+    set('success-title', cfg.successTitle);
+    set('success-text', cfg.successText);
+    clearErrors();
+
+    formView.hidden = false;
+    successView.hidden = true;
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('drawer-lock');
+    panel.scrollTop = 0;
+    setTimeout(function () {
+      var first = drawer.querySelector('#d_name');
+      if (first) first.focus();
+    }, 60);
+  }
+
+  function close() {
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('drawer-lock');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-drawer]');
+    if (trigger) {
+      e.preventDefault();
+      open(trigger.getAttribute('data-drawer'));
+      return;
+    }
+    if (e.target.closest('[data-drawer-close]')) {
+      e.preventDefault();
+      close();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) close();
+  });
+
+  formEl.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    var submitBtn = formEl.querySelector('[data-drawer-submit]');
+    var original = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    fetch(formEl.action, {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body: new FormData(formEl)
+    }).then(function (r) {
+      return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+    }).then(function (res) {
+      if (res.ok && res.data && res.data.ok) {
+        formView.hidden = true;
+        successView.hidden = false;
+        panel.scrollTop = 0;
+        return;
+      }
+      var errs = (res.data && res.data.errors) || {};
+      if (errs.message && errs.message.length) {
+        msgErr.hidden = false;
+        msgErr.innerHTML = errs.message.map(function (item) {
+          return '<li></li>';
+        }).join('');
+        var items = msgErr.querySelectorAll('li');
+        errs.message.forEach(function (item, i) { items[i].textContent = item.message; });
+      }
+      errorBox.hidden = false;
+      errorBox.textContent = errs.message
+        ? 'Please fix the highlighted field.'
+        : 'Something went wrong. Please try again.';
+    }).catch(function () {
+      errorBox.hidden = false;
+      errorBox.textContent = 'Network error. Please try again.';
+    }).finally(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = original;
+    });
+  });
+})();
+</script>

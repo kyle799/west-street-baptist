@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -57,13 +58,20 @@ def _notify_church(submission):
 
 def _handle_form(request, *, form_class, template, page_title, done_message):
     source_path = request.POST.get("source_path") or request.get_full_path()
+    is_ajax = request.headers.get("x-requested-with") == "XMLHttpRequest"
     if request.method == "POST":
         form = form_class(request.POST, source_path=source_path)
         if form.is_valid():
             submission = form.save()
             _notify_church(submission)
+            if is_ajax:
+                return JsonResponse({"ok": True, "message": done_message})
             messages.success(request, done_message)
             return redirect(f"{request.path}?sent=1")
+        if is_ajax:
+            return JsonResponse(
+                {"ok": False, "errors": form.errors.get_json_data()}, status=400
+            )
         # Honeypot or invalid: fall through and re-render with errors.
     else:
         form = form_class(source_path=source_path)
