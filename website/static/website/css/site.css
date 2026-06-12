@@ -96,6 +96,20 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 }
 .hero .cta-row { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 14px; }
 
+/* ---------- home hero with photo background ---------- */
+.hero--photo { position: relative; background: var(--ink); border-bottom: none; }
+.hero--photo::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(28,39,51,.90) 0%, rgba(28,39,51,.66) 45%, rgba(28,39,51,.42) 100%),
+    url('../img/church-building.jpg') center/cover no-repeat;
+}
+.hero--photo .container { position: relative; z-index: 1; }
+.hero--photo .eyebrow { color: var(--sky); }
+.hero--photo h1 { color: #fff; }
+.hero--photo .lead { color: rgba(242,238,227,.92); }
+.hero--photo .verse { color: var(--sky); }
+
 /* ---------- hero watch card ---------- */
 .hero-grid { display: grid; grid-template-columns: 1fr minmax(320px, 400px); gap: 48px; align-items: start; }
 .watch-card { background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
@@ -139,6 +153,18 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 }
 .card h3 { font-size: 19px; margin-bottom: 8px; color: var(--sunday-blue); }
 .card p { color: var(--slate); }
+
+/* ---------- photo / figure ---------- */
+.photo {
+  margin-top: 28px;
+  border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow); background: var(--paper);
+}
+.photo img { display: block; width: 100%; height: auto; }
+.photo figcaption {
+  padding: 12px 18px; font-size: 14px; color: var(--slate);
+  border-top: 1px solid var(--hairline);
+}
 
 /* ---------- map embed ---------- */
 .map-embed {

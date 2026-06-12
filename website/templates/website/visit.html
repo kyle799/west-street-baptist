@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Visit - {{ site_name }}{% endblock %}
 
@@ -31,6 +32,12 @@
         {{ site_city_state_zip }}
       </p>
       <p><a class="btn btn-ghost" href="{{ maps_link_url }}" target="_blank" rel="noopener">Get Directions</a></p>
+
+      <figure class="photo">
+        <img src="{% static 'website/img/church-building.jpg' %}"
+             alt="The {{ site_name }} building in {{ site_city }}">
+        <figcaption>Look for our building when you arrive.</figcaption>
+      </figure>
     </div>
     <aside class="times-card">
       <h3>Service Times</h3>
