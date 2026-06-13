@@ -109,9 +109,11 @@ h3 { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
 .hero--photo h1 { color: #fff; }
 .hero--photo .lead { color: rgba(242,238,227,.92); }
 .hero--photo .verse { color: var(--sky); }
+.hero--photo .btn-ghost { color: #fff; border-color: rgba(242,238,227,.55); }
+.hero--photo .btn-ghost:hover { color: #fff; border-color: #fff; background: rgba(242,238,227,.14); }
 
 /* ---------- hero watch card ---------- */
-.hero-grid { display: grid; grid-template-columns: 1fr minmax(320px, 400px); gap: 48px; align-items: start; }
+.hero-grid { display: grid; grid-template-columns: 1fr minmax(360px, 440px); gap: 48px; align-items: start; }
 .watch-card { background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
 .watch-card-title { font-size: 19px; margin-bottom: 14px; color: var(--sunday-blue); }
 .watch-embed { border: 1px solid var(--hairline); border-radius: var(--radius); overflow: hidden; background: var(--paper-2); }
@@ -386,6 +388,16 @@ body.drawer-lock { overflow: hidden; }
 @media (max-width: 820px) {
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
   .watch-card { max-width: 440px; }
+  /* photo only behind the first (text) card on mobile, not the whole hero */
+  .hero--photo { background: var(--parchment); }
+  .hero--photo::before { content: none; }
+  .hero--photo .hero-text {
+    position: relative; overflow: hidden;
+    padding: 32px 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow);
+    background:
+      linear-gradient(180deg, rgba(28,39,51,.86) 0%, rgba(28,39,51,.66) 100%),
+      url('../img/church-building.jpg') center/cover no-repeat;
+  }
   .point-heading { font-size: 20px; gap: 12px; }
   .diagram-row { gap: 16px; }
   .cols { grid-template-columns: 1fr; gap: 32px; }
@@ -400,6 +412,7 @@ body.drawer-lock { overflow: hidden; }
   .nav-menu.open { display: flex; }
   .nav-menu li { width: 100%; }
   .nav-menu a { display: block; padding: 12px 0; width: 100%; }
+  .nav-menu .nav-cta { display: inline-block; width: auto; padding: 10px 18px; margin: 8px 0; }
   .site-nav { position: static; }
   .header-inner { position: relative; }
 }
